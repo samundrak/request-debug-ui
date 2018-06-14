@@ -9,20 +9,31 @@ class RequestDebugUI {
   }
 
   addToDebug(request) {
+    const self = this;
     requestDebug(request, function(type, data, r) {
       // put your request or response handling logic here
+      const _requests = self._requests.get(data.debugId);
       if (type === 'response') {
-        const _requests = this._requests.get(data.debugId);
-        if (_requests) return;
-        if (this.configs.cleanup) {
-          this._requests.delete(data.debugId);
+        if (!_requests) return;
+        if (self.configs.cleanup) {
+          self._requests.delete(data.debugId);
         } else {
-          _requests.response = data;
+          _requests.response = {
+            created_at: Date.now(),
+            data,
+          };
         }
       } else {
-        this._requests.set(data.debugId, {
-          request: data,
+        self._requests.set(data.debugId, {
+          request: { data, created_at: Date.now() },
           response: {},
+        });
+      }
+      const req = self._requests.get(data.debugId);
+      if (req) {
+        self.io.emit('info', {
+          type,
+          data: req[type],
         });
       }
     });
@@ -42,9 +53,12 @@ class RequestDebugUI {
   }
 
   startServer() {
-    server(this, (io, server) => {
-      this.io = io;
-      this.server = server;
+    return new Promise(resolve => {
+      server(this, (io, server) => {
+        this.io = io;
+        this.server = server;
+        resolve();
+      });
     });
   }
 }
