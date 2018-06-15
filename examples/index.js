@@ -7,6 +7,6 @@ const rd = new RequestDebugUI({
 rd.startServer();
 rd.addToDebug(request);
 
-// setInterval(() => {
-//   request.get('https://www.npmjs.com/package/request-debug');
-// }, 10000);
+setTimeout(() => {
+  request.get('http://ipv4.download.thinkbroadband.com/20MB.zip');
+}, 10000);

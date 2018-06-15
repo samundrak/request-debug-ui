@@ -5,6 +5,7 @@ import './index.css';
 import 'animate.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';
+import 'vis/dist/vis.css';
 
 ReactDOM.render(
   <Router>

@@ -10,7 +10,6 @@ export default observable({
   },
   updateRequestResponse(data) {
     const req = this.requests.find(item => item._id === data.data.debugId);
-    console.log(req);
     if (!req) return;
     req.response = data;
   },
