@@ -3,52 +3,35 @@ import { withRouter } from 'react-router-dom';
 import { Card, Row, Col, Divider } from 'antd';
 import { observer } from 'mobx-react';
 import store from '../store/state';
+import CountCard from '../components/CountCard';
 
-const cardCss = {
-  fontWeight: 'bold',
-  fontSize: '70px',
-  position: 'relative',
-  top: '37%',
-  left: '40%',
-  transform: 'translateX(-50%) translateY(-50%)',
-};
 class Home extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { count: 0 };
+  }
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({
+        count: this.state.count + 1,
+      });
+    }, 5000);
+  }
   render() {
     return (
       <Row>
         <Row>
           <Col span={6}>
-            <Card title="Total Requests" style={{ width: 300 }}>
-              <span
-                style={{
-                  ...cardCss,
-                }}
-              >
-                {store.requests.length}
-              </span>
-            </Card>
+            <CountCard title="Total Requests" value={store.requests.length} />
           </Col>
           <Col span={6}>
-            <Card title="Request Pending" style={{ width: 300 }}>
-              <span
-                style={{
-                  ...cardCss,
-                }}
-              >
-                {store.pending.length}
-              </span>
-            </Card>
+            <CountCard title="Request Pending" value={store.pending.length} />
           </Col>{' '}
           <Col span={6}>
-            <Card title="Request Completed" style={{ width: 300 }}>
-              <span
-                style={{
-                  ...cardCss,
-                }}
-              >
-                {store.resloved.length}
-              </span>
-            </Card>
+            <CountCard
+              title="Request Completed"
+              value={store.resloved.length}
+            />
           </Col>
         </Row>
         <Divider />
