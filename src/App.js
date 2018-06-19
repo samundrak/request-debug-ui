@@ -7,6 +7,7 @@ import Socket from './Socket';
 import store from './store/state';
 
 import Home from './pages/Home';
+import Requests from './pages/Requests';
 
 const { Header, Content, Footer, Sider } = Layout;
 const SubMenu = Menu.SubMenu;
@@ -21,7 +22,7 @@ class App extends Component {
     this.socket = new Socket(store);
     this.socket.listen();
   }
-  onCollapse = collapsed => {
+  onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
   };
@@ -39,6 +40,9 @@ class App extends Component {
             <Menu.Item key="1">
               <Link to="/">Home</Link>
             </Menu.Item>
+            <Menu.Item key="2">
+              <Link to="/requests">Requests</Link>
+            </Menu.Item>
           </Menu>
         </Sider>
         <Layout>
@@ -46,6 +50,7 @@ class App extends Component {
             <Breadcrumb style={{ margin: '16px 0' }} />
             <div style={{ padding: 24, background: '#fff', minHeight: 360 }}>
               <Switch>
+                <Route path="/requests" component={Requests} store={store} />
                 <Route exact path="/" component={Home} store={store} />
               </Switch>
             </div>

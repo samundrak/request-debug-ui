@@ -9,14 +9,16 @@ export default observable({
     });
   },
   updateRequestResponse(data) {
-    const req = this.requests.find(item => item._id === data.data.debugId);
+    if (!data.data) return;
+    console.log(data);
+    const req = this.requests.find((item) => item._id === data.data.debugId);
     if (!req) return;
     req.response = data;
   },
   get resloved() {
-    return this.requests.filter(item => item.response);
+    return this.requests.filter((item) => item.response);
   },
   get pending() {
-    return this.requests.filter(item => !item.response);
+    return this.requests.filter((item) => !item.response);
   },
 });
